@@ -1,0 +1,30 @@
+================
+term constructor
+================
+
+foo => VarDecl = $(':'(var(Type),IdentAnns)=Value).
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (binary_relational_expression
+        (variable)
+        (term_constructor
+          (braced_goal
+            (binary_relational_expression
+              (function_call
+                (atom)
+                (arguments
+                  (argument
+                    (function_call
+                      (atom)
+                      (arguments
+                        (argument
+                          (variable)))))
+                  (argument
+                    (variable))))
+              (variable)))))
+      (eor))))

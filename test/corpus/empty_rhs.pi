@@ -1,0 +1,45 @@
+=========
+Empty RHS
+=========
+
+/*
+ * Prints
+ *  Welcome to PICAT's world!
+ */
+
+main(Args) =>
+	print(" Welcome to PICAT’s world! \n"),
+	foreach (Arg in Args)
+		printf("%s\n", Arg),
+		% printf("%s\r\n", Arg),
+	end.
+
+---
+
+(program
+  (comment)
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (parameters
+        (variable))
+      (conjunctive_goal
+        (function_call
+          (atom)
+          (arguments
+            (argument
+              (string))))
+        (foreach_statement
+          (iterator
+            (variable)
+            (variable))
+          (conjunctive_goal
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (string))
+                (argument
+                  (variable)))))
+          (comment)))
+      (eor))))

@@ -1,0 +1,38 @@
+=====
+While
+=====
+
+loop_ex7 =>
+	I = 1,
+	while (I <= 9)
+		println(I),
+		I := I + 2
+	end.
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (conjunctive_goal
+        (binary_relational_expression
+          (variable)
+          (integer))
+        (while_statement
+          (braced_goal
+            (binary_relational_expression
+              (variable)
+              (integer)))
+          (conjunctive_goal
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (variable))))
+            (binary_relational_expression
+              (variable)
+              (binary_expression
+                (variable)
+                (integer))))))
+      (eor))))

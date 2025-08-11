@@ -1,0 +1,19 @@
+=======================
+conjunctive disjunctive
+=======================
+
+test =>
+  A && B || C.
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (disjunctive_goal
+        (conjunctive_goal
+          (variable)
+          (variable))
+        (variable))
+      (eor))))
