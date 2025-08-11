@@ -1,0 +1,108 @@
+============
+quicksort.pi
+============
+
+fib(0) = F => F = 1.
+fib(1) = F => F = 1.
+fib(N) = F, N > 1 => F = fib(N-1)+fib(N-2).
+qsort([]) = L => L = [].
+qsort([H|T]) = L => L = qsort([E : E in T, E =< H]) ++ [H] ++
+						qsort([E : E in T, E > H]).
+
+---
+
+(program
+  (function_definition
+    (function_rule
+      (atom)
+      (parameters
+        (integer))
+      (variable)
+      (binary_relational_expression
+        (variable)
+        (integer))))
+  (function_definition
+    (function_rule
+      (atom)
+      (parameters
+        (integer))
+      (variable)
+      (binary_relational_expression
+        (variable)
+        (integer))))
+  (function_definition
+    (function_rule
+      (atom)
+      (parameters
+        (variable))
+      (conjunctive_goal
+        (variable)
+        (binary_relational_expression
+          (variable)
+          (integer)))
+      (binary_relational_expression
+        (variable)
+        (binary_expression
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (binary_expression
+                  (variable)
+                  (integer)))))
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (binary_expression
+                  (variable)
+                  (integer)))))))))
+  (function_definition
+    (function_rule
+      (atom)
+      (parameters
+        (list_expression))
+      (variable)
+      (binary_relational_expression
+        (variable)
+        (list_expression))))
+  (function_definition
+    (function_rule
+      (atom)
+      (parameters
+        (list_expression
+          (variable)
+          (variable)))
+      (variable)
+      (binary_relational_expression
+        (variable)
+        (concat_expression
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (list_expression
+                  (list_comprehension
+                    (variable)
+                    (iterator
+                      (variable)
+                      (variable))
+                    (binary_relational_expression
+                      (variable)
+                      (variable)))))))
+          (concat_expression
+            (list_expression
+              (variable))
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (list_expression
+                    (list_comprehension
+                      (variable)
+                      (iterator
+                        (variable)
+                        (variable))
+                      (binary_relational_expression
+                        (variable)
+                        (variable)))))))))))))

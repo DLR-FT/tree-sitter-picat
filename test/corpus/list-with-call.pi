@@ -1,0 +1,58 @@
+==============
+list with call
+==============
+
+array_ranges(Ranges,[i(1),'..'|S],SR) =>
+    Ranges=[$range(1,Max)|RangesR],
+    int_literal(Max,S,S1),
+    array_ranges_prime(RangesR,S1,SR).
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (parameters
+        (variable)
+        (list_expression
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (integer))))
+          (atom)
+          (variable))
+        (variable))
+      (conjunctive_goal
+        (conjunctive_goal
+          (binary_relational_expression
+            (variable)
+            (list_expression
+              (term_constructor
+                (function_call
+                  (atom)
+                  (arguments
+                    (argument
+                      (integer))
+                    (argument
+                      (variable)))))
+              (variable)))
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (variable))
+              (argument
+                (variable))
+              (argument
+                (variable)))))
+        (function_call
+          (atom)
+          (arguments
+            (argument
+              (variable))
+            (argument
+              (variable))
+            (argument
+              (variable))))))))

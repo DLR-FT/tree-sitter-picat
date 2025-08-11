@@ -1,0 +1,72 @@
+=========================
+prolog style if-then-else
+=========================
+
+aaa => (
+  A ->
+  B,
+  D
+  ;
+  C
+).
+
+
+aaa => (
+  InputM[R,C]==P ->
+  M[P,R,C] #= 1, sum(Neibs) #= 1
+  ;
+  M[P,R,C] #=> (sum(Neibs) #= 2)
+).
+
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (if_statement
+        (variable)
+        (conjunctive_goal
+          (variable)
+          (variable))
+        (variable))))
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (if_statement
+        (binary_relational_expression
+          (subscript_expression
+            (variable)
+            (variable)
+            (variable))
+          (variable))
+        (conjunctive_goal
+          (binary_relational_expression
+            (subscript_expression
+              (variable)
+              (variable)
+              (variable)
+              (variable))
+            (integer))
+          (binary_relational_expression
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (variable))))
+            (integer)))
+        (binary_constraint_expression
+          (subscript_expression
+            (variable)
+            (variable)
+            (variable)
+            (variable))
+          (braced_goal
+            (binary_relational_expression
+              (function_call
+                (atom)
+                (arguments
+                  (argument
+                    (variable))))
+              (integer))))))))

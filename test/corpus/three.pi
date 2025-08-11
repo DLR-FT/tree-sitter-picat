@@ -1,0 +1,46 @@
+======
+Goals
+======
+
+main =>
+	print(" Welcome to PICAT’s world! \n "),
+	print(" Welcome to PICAT’s world! \n ");
+	print(" Welcome to PICAT’s world! \n "),
+	print(" Welcome to PICAT’s world! \n "),
+	print(" Welcome to PICAT’s world! \n ").
+
+---
+
+(program
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (disjunctive_goal
+        (conjunctive_goal
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (string))))
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (string)))))
+        (conjunctive_goal
+          (conjunctive_goal
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (string))))
+            (function_call
+              (atom)
+              (arguments
+                (argument
+                  (string)))))
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (string)))))))))

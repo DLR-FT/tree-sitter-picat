@@ -1,0 +1,72 @@
+==================
+p1
+==================
+
+/*********************************************************
+        http://projecteuler.net/problem=1
+
+If we list all the natural numbers below 10 that are
+multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these
+multiples is 23.
+
+Find the sum of all the multiples of 3 or 5 below 1000.
+*********************************************************/
+
+main =>
+    S = sum([I : I in 1..999, (I mod 3 = 0; I mod 5 = 0)]),
+    writef("Sum of all the multiples of 3 or 5 below 1000 is %w%n",S).
+
+
+/* here is another implementation
+main =>
+    S = 0,
+    foreach (I in 1..999)
+        if (I mod 3 = 0; I mod 5 = 0) then
+            S:=S+I
+	end
+    end,
+    writef("Sum of all the multiples of 3 or 5 below 1000 is %w%n",S).
+*/
+
+---
+
+(program
+  (comment)
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (conjunctive_goal
+        (binary_relational_expression
+          (variable)
+          (function_call
+            (atom)
+            (arguments
+              (argument
+                (list_expression
+                  (list_comprehension
+                    (variable)
+                    (iterator
+                      (variable)
+                      (range_expression
+                        (integer)
+                        (integer)))
+                    (braced_goal
+                      (disjunctive_goal
+                        (binary_relational_expression
+                          (binary_expression
+                            (variable)
+                            (integer))
+                          (integer))
+                        (binary_relational_expression
+                          (binary_expression
+                            (variable)
+                            (integer))
+                          (integer))))))))))
+        (function_call
+          (atom)
+          (arguments
+            (argument
+              (string))
+            (argument
+              (variable)))))))
+  (comment))
