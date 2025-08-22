@@ -9,7 +9,7 @@
       "file-types": [
         "pi"
       ],
-      "injection-regex": "^picat$",
+      "injection-regex": "^(pi|picat)$",
       "class-name": "TreeSitterPicat",
       "highlights": [
         "queries/highlights.scm"
