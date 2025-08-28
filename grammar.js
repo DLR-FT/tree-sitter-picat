@@ -142,7 +142,7 @@ module.exports = grammar({
         //$._single_quoted_token,
         seq(
           "'",
-          repeat1(string_char),
+          repeat(string_char),
           "'"
         ),
       )
@@ -190,7 +190,7 @@ module.exports = grammar({
     ),
 
     import_declaration: $ => seq(
-      "import", $._import_item, optional(seq(',', $._import_item)), $.eor
+      "import", commaSep1($._import_item), $.eor
     ),
 
     _import_item: $ => $.atom,
@@ -215,7 +215,7 @@ module.exports = grammar({
 
     index_declaration: $ => seq(
       'index',
-      commaSep1(seq('(', commaSep($.index_mode), ')')),
+      commaSep1(seq('(', commaSep1($.index_mode), ')')),
     ),
 
     table_declaration: $ => prec.left(seq(
@@ -223,7 +223,7 @@ module.exports = grammar({
       optional(
         seq(
           '(',
-          commaSep($.table_mode),
+          commaSep1($.table_mode),
           ')'
         )
       )

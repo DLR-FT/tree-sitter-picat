@@ -1,0 +1,20 @@
+==============
+Atom of Quotes
+==============
+
+/* prints an empty line when interpreted */
+
+main => println('').
+
+---
+(program
+  (comment)
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (function_call
+        (atom)
+        (arguments
+          (argument
+            (atom))))
+      (eor))))
