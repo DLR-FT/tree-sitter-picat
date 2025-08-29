@@ -1,0 +1,27 @@
+=================
+Multiple Imports
+=================
+
+/* prints Hello when interpreted */
+
+import cp, sat, os.
+
+main => print("Hello").
+
+---
+(program
+  (comment)
+  (import_declaration
+    (atom)
+    (atom)
+    (atom)
+    (eor))
+  (predicate_definition
+    (predicate_rule
+      (atom)
+      (function_call
+        (atom)
+        (arguments
+          (argument
+            (string))))
+      (eor))))

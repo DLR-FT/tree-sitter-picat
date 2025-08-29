@@ -11,18 +11,18 @@
 
 const string_char = choice(
   /[^\n\r]/,
-  '\\"',             /* double quote " */
-  "\\'",             /* single quote ’ */
-  "\\\\",            /* backslash '  */
-  "\\\`",            /* back quote ‘ */
-  "\\a",             /* alarm */
-  "\\b",             /* backspace */
-  "\\f",             /* form feed */
-  "\\n",             /* line feed */
-  "\\r",             /* carriage return */
-  "\\t",             /* horizontal tab */
-  /\\u[0-9a-f]+/,    /* unicode (utf-8) code point */
-  "\\v",             /* vertical tab */
+  '\\"', /* double quote " */
+  '\\\'', /* single quote ’ */
+  '\\\\', /* backslash '  */
+  '\\\`', /* back quote ‘ */
+  '\\a', /* alarm */
+  '\\b', /* backspace */
+  '\\f', /* form feed */
+  '\\n', /* line feed */
+  '\\r', /* carriage return */
+  '\\t', /* horizontal tab */
+  /\\u[0-9a-f]+/, /* unicode (utf-8) code point */
+  '\\v', /* vertical tab */
 );
 
 const decimal_numeral = /[0-9][0-9_]*/;
@@ -34,11 +34,11 @@ const octal_numeral = /0[oO][0-7][0-7_]*/;
 const binary_numeral = /0[bB][0-1][0-1_]*/;
 
 module.exports = grammar({
-  name: "picat",
+  name: 'picat',
 
   externals: $ => [
     $.eor,
-    $.error_sentinel
+    $.error_sentinel,
   ],
 
   supertypes: $ => [
@@ -50,25 +50,25 @@ module.exports = grammar({
   ],
 
   precedences: $ => [
-    ['.', '@',],
+    ['.', '@'],
     ['**'],
     ['unary +', 'unary -', '~'],
     ['*', '/', '//', '/<', '/>', 'div', 'mod', 'rem'],
     ['binary +', 'binary -'],
     ['>>', '<<'],
-    ["/\\"],
+    ['/\\'],
     ['^'],
-    ["\\/"],
+    ['\\/'],
     ['long ..', 'short ..'],
     ['++'],
-    ["=", "!=", ":=", "==", "!==", "=:=", "<", "=<", "<=", ">", ">=", "::", "in", "notin", "=..", "#=", "#!=", "#<", "#=<", "#<=", "#>", "#>=", "@<", "@=<", "@<=", "@>", "@>="],
-    ["#~"],
-    ["#/\\"],
-    ["#^"],
-    ["#\\/"],
-    ["#=>"],
-    ["#<=>"],
-    ["not", "once", "\\+"],
+    ['=', '!=', ':=', '==', '!==', '=:=', '<', '=<', '<=', '>', '>=', '::', 'in', 'notin', '=..', '#=', '#!=', '#<', '#=<', '#<=', '#>', '#>=', '@<', '@=<', '@<=', '@>', '@>='],
+    ['#~'],
+    ['#/\\'],
+    ['#^'],
+    ['#\\/'],
+    ['#=>'],
+    ['#<=>'],
+    ['not', 'once', '\\+'],
     [',', '&&'],
     [';', '||'],
     [$._expression_except_range_expression, $.expression],
@@ -106,7 +106,7 @@ module.exports = grammar({
         choice(
           $.predicate_definition,
           $.function_definition,
-          $.actor_definition
+          $.actor_definition,
         ),
       ),
     ),
@@ -129,23 +129,23 @@ module.exports = grammar({
     comment: _ => token(
       choice(
         seq(
-          "%",
-          /(\\+(.|\r?\n)|[^\\\n])*/
+          '%',
+          /(\\+(.|\r?\n)|[^\\\n])*/,
         ),
-        seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")
-      )
+        seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
+      ),
     ),
 
     atom: _ => token(
       choice(
         seq(/[a-z]/, repeat(/[_a-zA-Z0-9]/)),
-        //$._single_quoted_token,
+        // $._single_quoted_token,
         seq(
-          "'",
-          repeat1(string_char),
-          "'"
+          '\'',
+          repeat(string_char),
+          '\'',
         ),
-      )
+      ),
     ),
 
     variable: _ => {
@@ -178,19 +178,19 @@ module.exports = grammar({
             choice('e', 'E'),
             seq(
               optional(choice('+', '-')),
-              decimal_numeral
+              decimal_numeral,
             ),
-          )
-        )
-      )
+          ),
+        ),
+      ),
     ),
 
     module_declaration: $ => seq(
-      "module", $.atom, $.eor
+      'module', $.atom, $.eor,
     ),
 
     import_declaration: $ => seq(
-      "import", $._import_item, optional(seq(',', $._import_item)), $.eor
+      'import', commaSep1($._import_item), $.eor,
     ),
 
     _import_item: $ => $.atom,
@@ -204,7 +204,7 @@ module.exports = grammar({
      */
     predicate_definition: $ => prec.left(seq(
       repeat($.directive),
-      repeat1($._predicate_rule_or_fact)
+      repeat1($._predicate_rule_or_fact),
     )),
 
     directive: $ => choice(
@@ -215,7 +215,7 @@ module.exports = grammar({
 
     index_declaration: $ => seq(
       'index',
-      commaSep1(seq('(', commaSep($.index_mode), ')')),
+      commaSep1(seq('(', commaSep1($.index_mode), ')')),
     ),
 
     table_declaration: $ => prec.left(seq(
@@ -223,15 +223,15 @@ module.exports = grammar({
       optional(
         seq(
           '(',
-          commaSep($.table_mode),
-          ')'
-        )
-      )
+          commaSep1($.table_mode),
+          ')',
+        ),
+      ),
     )),
 
     function_definition: $ => prec.left(seq(
       repeat($.directive),
-      repeat1($._function_rule_or_fact)
+      repeat1($._function_rule_or_fact),
     )),
 
     actor_definition: $ => prec.left(seq(
@@ -240,9 +240,9 @@ module.exports = grammar({
       repeat(
         choice(
           $.action_rule,
-          $.nonbacktrackable_predicate_rule
-        )
-      )
+          $.nonbacktrackable_predicate_rule,
+        ),
+      ),
     )),
 
     index_mode: _ => token(choice('+', '-')),
@@ -254,7 +254,7 @@ module.exports = grammar({
         'min',
         'max',
         'nt',
-      )
+      ),
     ),
 
     _predicate_rule_or_fact: $ => choice(
@@ -274,40 +274,40 @@ module.exports = grammar({
           seq(
             ',',
             field('condition', $._term),
-          )
+          ),
         ),
         field('operator', choice('=>', '?=>')),
         field('goal', $._body),
-        $.eor
+        $.eor,
       ),
       seq(
         $._head,
-        field('operator', choice(":-", "-->")),
+        field('operator', choice(':-', '-->')),
         field('goal', $._body),
-        $.eor
-      )
+        $.eor,
+      ),
     ),
 
     nonbacktrackable_predicate_rule: $ => seq(
-      $._head, optional(seq(',', field('condition', $.expression))), "=>",
-        field('goal', $._body), $.eor
+      $._head, optional(seq(',', field('condition', $.expression))), '=>',
+      field('goal', $._body), $.eor,
     ),
 
     predicate_fact: $ => seq(
-      $._head, $.eor
+      $._head, $.eor,
     ),
 
     _head: $ => seq(
       field('name', $.atom),
       optional(
         field('parameters', $.parameters),
-      )
+      ),
     ),
 
     parameters: $ => seq(
       '(',
       commaSep($.primary_expression),
-      ')'
+      ')',
     ),
 
     function_rule: $ => seq(
@@ -316,14 +316,14 @@ module.exports = grammar({
       field('return_type', $._term),
       '=>',
       field('goal', $._body),
-      $.eor
+      $.eor,
     ),
 
     function_fact: $ => seq(
       $._head,
       '=',
       field('return_type', $._term),
-      $.eor
+      $.eor,
     ),
 
     action_rule: $ => seq(
@@ -332,7 +332,7 @@ module.exports = grammar({
         seq(
           ',',
           field('condition', $.expression),
-        )
+        ),
       ),
       seq(
         ',',
@@ -345,7 +345,7 @@ module.exports = grammar({
       ),
       '=>',
       field('goal', $._body),
-      $.eor
+      $.eor,
     ),
 
     event_pattern: $ => choice(
@@ -377,7 +377,7 @@ module.exports = grammar({
       $.binary_relational_expression,
       $.binary_constraint_expression,
       $.unary_constraint_expression,
-      $.expression
+      $.expression,
     ),
 
     _goal_except_disjunctive_goal: $=> choice(
@@ -396,7 +396,7 @@ module.exports = grammar({
       $.binary_relational_expression,
       $.binary_constraint_expression,
       $.unary_constraint_expression,
-      $.expression
+      $.expression,
     ),
 
     statement: $ => choice(
@@ -416,26 +416,26 @@ module.exports = grammar({
       'while',
       '(',
       field('body', $._goal),
-      ')'
+      ')',
     ),
 
     while_statement: $ => seq(
       'while',
       field('condition', $.braced_goal),
-      optional("do"),
+      optional('do'),
       field('body', $._body),
-      'end'
+      'end',
     ),
 
     iterator: $ => seq(
       field('pattern', $.primary_expression),
       'in',
-      field('expression', $.expression)
+      field('expression', $.expression),
     ),
 
     foreach_statement: $ => seq(
-      "foreach",
-      "(",
+      'foreach',
+      '(',
       $.iterator,
       repeat(
         seq(
@@ -443,12 +443,12 @@ module.exports = grammar({
           choice(
             $.iterator,
             $.expression,
-          )
-        )
+          ),
+        ),
       ),
-      ")",
+      ')',
       $._goal,
-      "end"
+      'end',
     ),
 
     if_statement: $ => choice(
@@ -458,10 +458,10 @@ module.exports = grammar({
         field('then', $._body),
         repeat(
           seq(
-            "elseif",
+            'elseif',
             field('elseif_condition', $._if_cond),
             $._body,
-          )
+          ),
         ),
         optional(
           seq(
@@ -469,7 +469,7 @@ module.exports = grammar({
             field('else', $._body),
           ),
         ),
-        "end"
+        'end',
       ),
       $._prolog_style_if_statement,
     ),
@@ -514,10 +514,10 @@ module.exports = grammar({
             $.while_statement,
             $.do_statement,
             $.once_goal,
-            $.expression
+            $.expression,
           ),
         ),
-      )
+      ),
     ),
 
     conjunctive_goal: $ => prec.left(
@@ -541,8 +541,8 @@ module.exports = grammar({
             $.while_statement,
             $.do_statement,
             $.once_goal,
-            $.expression
-          )
+            $.expression,
+          ),
         ),
         field(
           'operator',
@@ -566,10 +566,10 @@ module.exports = grammar({
             $.while_statement,
             $.do_statement,
             $.once_goal,
-            $.expression
+            $.expression,
           )),
         ),
-      )
+      ),
     ),
 
     binary_relational_expression: $ => choice(
@@ -609,17 +609,17 @@ module.exports = grammar({
             field('left', $.expression),
             field('operator', operator),
             field('right', $.expression),
-          )
-        )
-      )
+          ),
+        ),
+      ),
     ),
 
     binary_constraint_expression: $ => choice(
       // left associative
       ...[
-        ["#=>", "#=>"],
-        ["#<=>", "#<=>"],
-        ["#\\/", "#\\/"],
+        ['#=>', '#=>'],
+        ['#<=>', '#<=>'],
+        ['#\\/', '#\\/'],
         ['#^', '#^'],
         ['#/\\', '#/\\'],
         ['in', 'in'],
@@ -631,8 +631,8 @@ module.exports = grammar({
             field('left', $._goal),
             field('operator', operator),
             field('right', $._goal),
-          )
-        )
+          ),
+        ),
       ),
     ),
 
@@ -640,20 +640,20 @@ module.exports = grammar({
       // left associative
       ...[
         ['not', 'not'],
-        ["\\+", "\\+"],
-        ["#~", "#~"],
+        ['\\+', '\\+'],
+        ['#~', '#~'],
       ].map(([precedence, operator]) =>
         prec.left(
           precedence,
           seq(
             field('operator', operator),
             field('operand', $._goal),
-          )
-        )
-      )
+          ),
+        ),
+      ),
     ),
 
-    _if_cond: $ =>  choice(
+    _if_cond: $ => choice(
       seq('(', $._goal, ')'),
       seq($._goal, 'then'),
     ),
@@ -677,7 +677,7 @@ module.exports = grammar({
       seq(
         field('left', $.expression),
         field('operator', '++'),
-        field('right', $.expression)
+        field('right', $.expression),
       ),
     ),
 
@@ -710,9 +710,9 @@ module.exports = grammar({
           seq(
             field('left', $.expression),
             field('operator', operator),
-            field('right', $.expression)
-          )
-        )
+            field('right', $.expression),
+          ),
+        ),
       ),
       // right associative
       ...[
@@ -723,10 +723,10 @@ module.exports = grammar({
           seq(
             field('left', $.expression),
             field('operator', operator),
-            field('right', $.expression)
-          )
-        )
-      )
+            field('right', $.expression),
+          ),
+        ),
+      ),
     ),
 
     unary_expression: $ => choice(
@@ -759,7 +759,7 @@ module.exports = grammar({
         field('left', $.variable),
         '@',
         field('right', $._term),
-      )
+      ),
     ),
 
     subscript_expression: $ => prec.right(seq(
@@ -770,16 +770,16 @@ module.exports = grammar({
       // subscript syntax (both contain ','); so what we define as "expression"
       // in this grammar seems to be more what was intended.
       commaSep1($.expression),
-      ']'
+      ']',
     )),
 
     dot_expression: $ => prec.left(
       '.',
       seq(
         field('left', $.expression),
-        ".",
+        '.',
         field('right', $._atom_or_call),
-      )
+      ),
     ),
 
     _atom_or_call: $ => seq(
@@ -795,11 +795,11 @@ module.exports = grammar({
           $.list_comprehension,
           seq(
             commaSep1($.expression),
-            optional(seq('|', $.expression))
+            optional(seq('|', $.expression)),
           ),
         ),
-        ']'
-      )
+        ']',
+      ),
     ),
 
     list_comprehension: $ => seq(
@@ -812,7 +812,7 @@ module.exports = grammar({
           choice(
             $.iterator,
             choice($.primary_expression, $.binary_relational_expression),
-          )
+          ),
         ),
       ),
     ),
@@ -826,11 +826,11 @@ module.exports = grammar({
           $.list_comprehension,
           seq(
             commaSep1($.expression),
-            optional(seq('|', $.expression))
+            optional(seq('|', $.expression)),
           ),
         ),
-        '}'
-      )
+        '}',
+      ),
     ),
 
     argument: $ => seq(
@@ -839,9 +839,9 @@ module.exports = grammar({
           '=',
           seq(
             field('binding', $.atom),
-            '='
-          )
-        )
+            '=',
+          ),
+        ),
       ),
       $.expression,
     ),
@@ -852,7 +852,7 @@ module.exports = grammar({
         choice(
           $.atom,
           $.dot_expression,
-        )
+        ),
       ),
       field('arguments', $.arguments),
     ),
@@ -861,20 +861,20 @@ module.exports = grammar({
       seq(
         field('value', $.expression),
         '.',
-        field('field', $.atom)
-      )
+        field('field', $.atom),
+      ),
     ),
 
     arguments: $ => seq(
       '(',
       commaSep($.argument),
-      ')'
+      ')',
     ),
 
     term_constructor: $ => prec.left(seq(
       '$',
       $._goal,
-      optional('$')
+      optional('$'),
     )),
 
     /* A term has the same form as a goal except that it cannot contain loops
@@ -889,7 +889,7 @@ module.exports = grammar({
      * sometimes is not optional from the view of the compiler.
      */
     _term: $ => $._goal,
-  }
+  },
 });
 
 /**
