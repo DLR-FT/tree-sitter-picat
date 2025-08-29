@@ -23,7 +23,7 @@ unsigned tree_sitter_picat_external_scanner_serialize(
 
 void tree_sitter_picat_external_scanner_deserialize(
   void *payload,
-  char *buffer,
+  const char *buffer,
   unsigned length
 ) {
 }
